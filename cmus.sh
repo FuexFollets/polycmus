@@ -4,14 +4,14 @@ iconcolor=#444
 
 output=$(cmus-remote -C status)
 artist=$(echo "$output" | grep "^tag artist" | cut -c 12-)
-path=$(echo "$output" | grep "^file" | cut -c 12-)
+path="$(echo "$output" | grep "^file" | cut -c 12- | /home/fuexfollets/user-configs/polybar/polycmus/trimname.sh)"
 cmusstatus=$(echo "$output"| grep "^status" | cut -c 8-)
 case $cmusstatus in 
     "playing")
-        icon=""
+        icon="(playing)"
         ;;
     "paused")
-        icon=""
+        icon="(paused)"
         ;;
     "stopped")
         echo
@@ -28,7 +28,8 @@ elif [[ $path = *[!\ ]* ]]; then
     for i in "${parts[@]}"; do
         file=$i
     done
-    echo -n "%{F$iconcolor}$icon%{F-} $file"
+    # %{F$iconcolor}
+    echo -n "CMUS $file $icon%{F-}"
 else
         echo
 fi

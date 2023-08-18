@@ -1,11 +1,16 @@
 #!/bin/bash
 
 iconcolor=#444
+textcolor=#7aa2f7
 
 output=$(cmus-remote -C status)
 artist=$(echo "$output" | grep "^tag artist" | cut -c 12-)
-path="$(echo "$output" | grep "^file" | cut -c 12- | /home/fuexfollets/user-configs/polybar/polycmus/trimname.sh)"
+path="$(echo "$output" | grep "^file" | cut -c 12- | sed "s/\.flac//")"
 cmusstatus=$(echo "$output"| grep "^status" | cut -c 8-)
+cmusduration=$(echo "$output" | grep "^duration" | cut -c 10- | date -d "@$(cat)" +%M:%S)
+cmusposition=$(echo "$output" | grep "^position" | cut -c 10- | date -d "@$(cat)" +%M:%S)
+cmuspercent="$cmusposition / $cmusduration"
+
 case $cmusstatus in 
     "playing")
         icon="(playing)"
@@ -29,7 +34,7 @@ elif [[ $path = *[!\ ]* ]]; then
         file=$i
     done
     # %{F$iconcolor}
-    echo -n "CMUS $file $icon%{F-}"
+    echo -n "%{F$textcolor}CMUS%{F-} $file $cmuspercent $icon%{F-}"
 else
         echo
 fi

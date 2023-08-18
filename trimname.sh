@@ -1,6 +1,6 @@
 #! /bin/bash
 
-CAPTURE_PATTERN="(.+\S)\s{0,}-.+\..+\$"
+CAPTURE_PATTERN="()"
 
 # echo $CAPTURE_PATTERN
 

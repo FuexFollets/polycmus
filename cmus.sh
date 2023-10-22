@@ -7,8 +7,8 @@ output=$(cmus-remote -C status)
 artist=$(echo "$output" | grep "^tag artist" | cut -c 12-)
 path="$(echo "$output" | grep "^file" | cut -c 12- | sed "s/\.flac//")"
 cmusstatus=$(echo "$output"| grep "^status" | cut -c 8-)
-cmusduration=$(echo "$output" | grep "^duration" | cut -c 10- | date -d "@$(cat)" +%M:%S)
-cmusposition=$(echo "$output" | grep "^position" | cut -c 10- | date -d "@$(cat)" +%M:%S)
+cmusduration=$(echo "$output" | grep "^duration" | cut -c 10- | date -d "@$(cat)" +%M:%S 2> /dev/null)
+cmusposition=$(echo "$output" | grep "^position" | cut -c 10- | date -d "@$(cat)" +%M:%S 2> /dev/null)
 cmuspercent="$cmusposition / $cmusduration"
 
 case $cmusstatus in 
